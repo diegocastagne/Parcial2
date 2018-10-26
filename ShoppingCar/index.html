@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Carrito de compras</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="public/css/maps.css">
+
+    <!-- Custom fonts for this template -->
+    <link href="public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+        rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+        rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="public/vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="public/css/creative.min.css" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.paypalobjects.com/api/checkout.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="public/js/facebook.js"></script>
+    <script src="public/js/menu.js"></script>
+    <script src="public/js/shoppingcart.js"></script>
+    <script src="public/js/paypal.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="public/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="public/vendor/scrollreveal/scrollreveal.min.js"></script>
+    <script src="public/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="public/js/creative.min.js"></script>
+
+</head>
+
+
+<body id="page-top" onload="initialize();">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">Fashion Clothes</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#home">Compra ahora</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="logIn()">Ingresa con Facebook</a>
+                      </li>
+                    <span class="navbar-text" style="display: none" id="userName">
+                    </span>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="masthead text-center text-white d-flex">
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <h1 class="text-uppercase">
+                        <strong>¡Bienvenido a Fashion Clothes México!</strong>
+                    </h1>
+                    <hr>
+                </div>
+                <div class="col-lg-8 mx-auto">
+                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="#home">Compra ahora</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="home">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <form class="form-inline">
+                        <div class="form-group col-sm-12 my-2">
+                            <img id="Imagen" src="" alt="..." class="img-thumbnail" style="width: 100%; height: 100%">
+                        </div>
+                        <div class="form-group col-sm-3 my-2">
+                            <label class="mr-2" for="id_productos">Productos</label>
+                            <select class="form-control" id="id_productos" onChange="getDataProductos()"></select>
+                        </div>
+                        <div class="form-group col-sm-3 my-2">
+                            <label class="mr-2" for="Precio">Precio</label>
+                            <input placeholder="0.00" id="Precio" class="form-control" readonly>
+                        </div>
+                        <div class="form-group col-sm-3 my-2">
+                            <label class="mr-2" for="Cantidad">Cantidad</label>
+                            <input class="form-control" size="1" id="Cantidad" value="1" onkeydown="if (event.keyCode == 13) document.getElementById('addShoppingCar').click()"
+                            />
+                        </div>
+                        <div class="form-group col-sm-3 my-2">
+                            <label class="mr-2" for="Descuento">Descuento</label>
+                            <input class="form-control" size="1" id="Descuento" value="1" onkeydown="if (event.keyCode == 13) document.getElementById('addShoppingCar').click()"
+                                readonly/>
+                        </div>
+                        <div class="form-group col-sm-12 my-2">
+                            <input class="btn btn-primary col-sm-1" type="button" id="addShoppingCar" onclick="addCar()" value=" + " />
+                        </div>
+                    </form>
+
+                    <table id="tableProducts" class="table table-striped table-bordered">
+                        <thead>
+                            <th>Cantidad</th>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Importe</th>
+                            <th>Imagen</th>
+                            <th>Descuento</th>
+                            <th>Agregar</th>
+                            <th>Borrar</th>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                    <table border="0">
+                        <tr>
+
+                            <td>Total Importe: $</td>
+                            <td>
+                                <div id="totalImporte" />
+                            </td>
+
+                            <td>Total Unidades:</td>
+                            <td>
+                                <div id="totalUnidades" />
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div id="paypal-button">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!--login fb-->
+  <script> 
+    function logIn(){
+      FB.login(function (response){
+        console.log(response);
+      })
+    }
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1988387524562251',
+        cookie     : true,  // enable cookies to allow the server to access 
+                            // the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v2.8' // use graph api version 2.8
+      });
+  
+      // Now that we've initialized the JavaScript SDK, we call 
+      // FB.getLoginStatus().  This function gets the state of the
+      // person visiting this page and can return one of three states to
+      // the callback you provide.  They can be:
+      //
+      // 1. Logged into your app ('connected')
+      // 2. Logged into Facebook, but not your app ('not_authorized')
+      // 3. Not logged into Facebook and can't tell if they are logged into
+      //    your app or not.
+      //
+      // These three cases are handled in the callback function.
+  
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+    };
+  
+    // Load the SDK asynchronously
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  
+    // Here we run a very simple test of the Graph API after login is
+    // successful.  See statusChangeCallback() for when this call is made.
+    function testAPI() {
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me', function(response) {
+        console.log('Successful login for: ' + response.name);
+        document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+      });
+    }
+  </script>
+</body>
+</html>
