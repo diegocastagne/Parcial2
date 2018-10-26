@@ -1,0 +1,35 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+      {{ title }}
+    </div>
+    <div class="panel-body">
+      <form [formGroup]="angForm" novalidate>
+        <div class="form-group">
+          <label class="col-md-4">Product Code</label>
+          <input type="text" class="form-control" formControlName="codigo" #codigo />
+        </div>
+        <div *ngIf="angForm.controls['codigo'].invalid && (angForm.controls['codigo'].dirty || angForm.controls['codigo'].touched)" class="alert alert-danger">
+          
+          <div *ngIf="angForm.controls['codigo'].errors.required">
+            Code is required.
+          </div>
+        
+        </div>
+        <div class="form-group">
+          <label class="col-md-4">Product Name</label>
+          <input type="text" class="form-control" formControlName="nombre" #nombre/>
+        </div>
+ 
+        <div *ngIf="angForm.controls['nombre'].invalid && (angForm.controls['nombre'].dirty || angForm.controls['nombre'].touched)" class="alert alert-danger">
+ 
+          <div *ngIf="angForm.controls['nombre'].errors.required">
+            Name is required.
+          </div>
+ 
+        </div>
+          <div class="form-group">
+            <button (click)="addCoin(codigo.value, nombre.value)" [disabled]="angForm.pristine || angForm.invalid" class="btn btn-primary">Add</button>
+          </div>
+      </form>
+    </div>
+  </div>
